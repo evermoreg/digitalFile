@@ -1,14 +1,14 @@
 from app import app, login_manager, db
 from flask import redirect, url_for
-from models import User
 from forms import LoginForm, RegisterForm
 from flask import render_template
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from models import User
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return User.query.get(user_id)
 
 @app.route('/')
 def index():
@@ -18,7 +18,7 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(email=form.email.data).first()
         if user:
             if check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
@@ -31,7 +31,7 @@ def signup():
     form = RegisterForm()
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        new_user = User(email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         return '<h1>New user has been created!</h1>'
@@ -40,7 +40,7 @@ def signup():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', name=current_user.username)
+    return render_template('dashboard.html', name=current_user.email)
 
 @app.route('/logout')
 @login_required
@@ -51,5 +51,5 @@ def logout():
 @app.route('/sendMessage')
 @login_required
 def sendMessage():
-    username=current_user.username
+    username=current_user.email
     return render_template('sendMessage.html', username=username)
