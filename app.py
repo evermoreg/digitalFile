@@ -12,6 +12,10 @@ login_manager.login_view = 'login'
 app.config.from_object(Config)
 bootstrap = Bootstrap(app)
 
+'''migrate = Migrate(app, db)
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
+'''
 from views import *
 
 if __name__ == '__main__':
