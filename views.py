@@ -1,28 +1,29 @@
 from app import app, login_manager, db
-from flask import redirect, url_for
-from forms import LoginForm, RegisterForm
+from flask import redirect, url_for, request, send_file
+from forms import LoginForm, RegisterForm, messageForm
 from flask import render_template
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import User
+from werkzeug.utils import secure_filename
+from models import User, Messages
+from sqlalchemy import desc
+from io import BytesIO
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             if check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('home'))
         return '<h1>Invalid username or password</h1>'    
     return render_template('login.html', form=form)
 
@@ -46,10 +47,54 @@ def dashboard():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
-@app.route('/sendMessage')
+@app.route('/')
 @login_required
-def sendMessage():
-    username=current_user.email
-    return render_template('sendMessage.html', username=username)
+def home():
+    contactList=User.query.all()
+    return render_template('home.html', contactList=contactList, name=current_user.email)
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    form=messageForm()
+    if form.validate_on_submit():
+        #receiver=request.form['receiver']
+        receiver=form.receiver.data
+        #message=request.form['message']
+        message=form.message.data
+        file=form.file.data
+        filename=secure_filename(file.filename)
+        #file=request.files['file']
+        #add security checks
+
+        newMessage = Messages(sender=current_user.email, receiver=receiver, file=file.read(), message=message)
+        db.session.add(newMessage)
+        db.session.commit()
+
+    return 'Saved ' + file.filename + ' to the database! from user ' + current_user.email + ' to user ' + receiver
+
+@app.route('/inbox')
+@login_required
+def inbox():
+    messages=Messages.query.filter_by(receiver=current_user.email).all()
+    return render_template('inbox.html', messages=messages, name=current_user.email)
+
+@app.route('/readMessage/<senderID>')
+@login_required
+def readMessage(senderID):
+    message=Messages.query.get(senderID)
+    return render_template('readMessage.html', message=message )
+    
+@app.route('/download/<fileID>')
+@login_required
+def download(fileID):
+    messages=Messages.query.get(fileID)
+    return send_file(BytesIO(messages.file), attachment_filename='test1.pdf', as_attachment=True)
+
+@app.route('/compose')    
+@login_required
+def compose():
+    form=messageForm()
+    #receiver=contactID
+    return render_template('compose.html', form=form)
