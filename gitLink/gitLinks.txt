@@ -1,5 +1,0 @@
-  #python scripts from diff sources for sending sms, just clone them from git
-   https://github.com/theckman/twilio-sms.git
-   https://github.com/nickstellato/twilio.git
-   https://github.com/esc/python-fullsms.git
-   https://github.com/unique1o1/Meet-SMS.git
