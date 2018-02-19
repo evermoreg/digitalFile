@@ -1,4 +1,0 @@
-pip install twilio
-create a twilio account
-get auth_token and twilio cell_number from twilio account
-run your in your terminal/cmd
