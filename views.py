@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename
 from models import User, Messages
 from sqlalchemy import desc
 from io import BytesIO
+from smsAPI import Twilio
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -59,18 +60,18 @@ def home():
 def upload():
     form=messageForm()
     if form.validate_on_submit():
-        #receiver=request.form['receiver']
         receiver=form.receiver.data
-        #message=request.form['message']
         message=form.message.data
         file=form.file.data
         filename=secure_filename(file.filename)
-        #file=request.files['file']
+        
         #add security checks
 
         newMessage = Messages(sender=current_user.email, receiver=receiver, file=file.read(), message=message)
         db.session.add(newMessage)
         db.session.commit()
+
+        Twilio.phoneMessage("+263713600895")
 
     return 'Saved ' + file.filename + ' to the database! from user ' + current_user.email + ' to user ' + receiver
 
