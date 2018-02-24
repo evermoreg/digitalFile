@@ -8,7 +8,7 @@ class User(UserMixin, db.Model):
     email=db.Column(db.String(50), primary_key=True)
     password=db.Column(db.String(80))
     #publicKey=db.Column(db.String(500))
-    #phoneNumber=db.Column(db.String(50))
+    phoneNumber=db.Column(db.Integer)
     messageSent=db.relationship('Messages', backref='author', lazy='dynamic')
 
     def get_id(self):

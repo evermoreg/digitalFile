@@ -1,6 +1,6 @@
 from app import app, login_manager, db
 from flask import redirect, url_for, request, send_file
-from forms import LoginForm, RegisterForm, messageForm
+from forms import LoginForm, RegisterForm, messageForm, profileForm
 from flask import render_template
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -71,7 +71,9 @@ def upload():
         db.session.add(newMessage)
         db.session.commit()
 
-        Twilio.phoneMessage("+263713600895")
+        receiverPhone=User.query.filter_by(email=receiver).first()
+        phoneNumber="+263"+str(receiverPhone.phoneNumber)
+        Twilio.phoneMessage(phoneNumber, current_user.email)
 
     return 'Saved ' + file.filename + ' to the database! from user ' + current_user.email + ' to user ' + receiver
 
@@ -99,3 +101,19 @@ def compose():
     form=messageForm()
     #receiver=contactID
     return render_template('compose.html', form=form)
+
+@app.route('/profile', methods=['POST', 'GET'])
+@login_required
+def profile():
+    form=profileForm()
+
+    if form.validate_on_submit():
+        #TODO: update the database
+        current_user.phoneNumber=form.phoneNumber.data
+        db.session.commit()
+        #flash('Your changes have been saved.')
+        return redirect(url_for('profile'))
+    elif request.method =='GET':
+        form.phoneNumber.data=current_user.phoneNumber
+    return render_template('profile.html', form=form)
+
