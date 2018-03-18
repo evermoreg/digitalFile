@@ -1,7 +1,25 @@
-Login Page for Flask App
+# Comunicazione Sicura/ Secure Communication
 
-Clean Up required
+Secure Communication is a Flask framework made application to provide secure communication between two or more parties in an email like fashion. Its purpose is to provide seemless security features (symmetric key and asymetric key encryption) into communication.
 
-1. What happens when existing email is used for signup
-2. email confirmation
-3. 
+## Getting Started
+
+#### Prerequisites
+
+#### Installing
+
+#### Running the tests
+
+#### Deployment
+
+#### Built with
+
+#### Contributing
+
+##### TODO
+
+#### Authors
+
+#### License
+
+#### Acknowledgements
