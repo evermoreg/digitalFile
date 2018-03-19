@@ -4,16 +4,29 @@
 Compose
 {% endblock %}
 
+<script type="text/javascript" src="CryptoJS/rollups/aes.js"></script>
+<script>
+	function encrypt(){
+		var message=document.getElementById("messageTextBox").value;
+		var encryptionKey=document.getElementById("encryptionKey").value;
+		var enc=CryptoJS.AES.encrypt(message, encryptionKey);
+		alert(enc);
+			}
+</script>
+
 {% block content %}
 <div class="container">
 	<form method="POST" enctype="multipart/form-data" action="{{ url_for('upload') }}">
-		{{ form.hidden_tag() }}
+		<!-- {{ form.hidden_tag() }}
 		{{ wtf.form_field(form.receiver) }}
 		{{ wtf.form_field(form.message) }}
     	{{ wtf.form_field(form.file) }}
-		<!--Send To:<input type="text" name="receiver">
+		Send To:<input type="text" name="receiver">
 		Message:<input type="text" name="message">
 		<input type="file" name="file"> -->
+		<input id="messageTextBox" type="text" name="message">
+		<input id="encryptionKey" type="text" name="key">
+		<input type="submit" name="Submit" onclick="encrypt()">
 		<input type="submit">
 	</form>
 </div>

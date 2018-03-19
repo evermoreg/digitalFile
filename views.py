@@ -98,9 +98,9 @@ def download(fileID):
 @app.route('/compose')    
 @login_required
 def compose():
-    form=messageForm()
+    #form=messageForm()
     #receiver=contactID
-    return render_template('compose.html', form=form)
+    return render_template('compose.html')
 
 @app.route('/profile', methods=['POST', 'GET'])
 @login_required
