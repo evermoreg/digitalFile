@@ -100,7 +100,7 @@ def download(fileID):
 def compose():
     #form=messageForm()
     #receiver=contactID
-    return render_template('compose.html')
+    return render_template('compose.html') #, form=form
 
 @app.route('/profile', methods=['POST', 'GET'])
 @login_required
@@ -116,4 +116,13 @@ def profile():
     elif request.method =='GET':
         form.phoneNumber.data=current_user.phoneNumber
     return render_template('profile.html', form=form)
+
+@app.route('/test1', methods=['POST', 'GET'])
+def test1():
+
+    encryptedText=request.form.get("encryptedText")
+    encryptionKey=request.form.get("encryptionKey")
+    return "Your encrypted message is:" +  encryptedText + "the encryption key is: " + encryptionKey
+
+    
 
