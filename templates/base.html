@@ -52,15 +52,19 @@ Digital File Encryption
     document.getElementById("encryptedText").value=enc; 
       }
 
-    function chooseFile():{
-      if(var checkboxOption = document.getElementById("checkbox").value == "true"){
-        /* choose a file or activate the button to choose a file */
-         document.getElementById("chooseFile").disabled=false;
+</script>
+
+<script>
+  function check(cb){
+    if(!cb.checked){
+    /* choose a file or activate the button to choose a file */
+    document.getElementById("chooseFile").disabled=false;
       }
-      else{
-        document.getElementById("chooseFile").disabled=true;
+    else{
+      document.getElementById("chooseFile").disabled=true;
       }
     }
+  
 </script>
 
 {% endblock %}
