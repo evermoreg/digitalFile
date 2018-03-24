@@ -42,7 +42,16 @@ Digital File Encryption
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript" src={{ url_for('static', filename='cryptoJS/aes.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='cryptoJS/aes1.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='cryptico/aes.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='cryptico/api.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='cryptico/cryptico.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='cryptico/cryptico.min.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='cryptico/hash.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='cryptico/jsbn.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='cryptico/random.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='cryptico/rsa.js') }}></script>
+
 <script>
   
   function encrypt(){
@@ -50,10 +59,7 @@ Digital File Encryption
     var encryptionKey=document.getElementById("encryptionKey").value;
     var enc=CryptoJS.AES.encrypt(message, encryptionKey);
     document.getElementById("encryptedText").value=enc; 
-      }
-
-</script>
-
+      }</script>
 <script>
   function check(cb){
     if(!cb.checked){
@@ -63,8 +69,17 @@ Digital File Encryption
     else{
       document.getElementById("chooseFile").disabled=true;
       }
+    }</script>
+
+<script>
+  function createKeys(){
+    var passPhrase=document.getElementById("passPhrase").value;
+    var bits=1024;
+    var RSAKey=cryptico.generateRSAKey(passPhrase, bits);
+    var PublicKey=cryptico.publicKeyString(RSAKey);
+    //str=JSON.stringify(tatPublicKey, null, 4);
+    document.getElementById("publicKey").innerHTML=PublicKey;
     }
-  
-</script>
+  </script>
 
 {% endblock %}
