@@ -110,6 +110,9 @@ def profile():
     if form.validate_on_submit():
         #TODO: update the database
         current_user.phoneNumber=form.phoneNumber.data
+        #add users public key to to databse
+        current_user.publicKey=request.form.get("publicKey")
+
         db.session.commit()
         #flash('Your changes have been saved.')
         return redirect(url_for('profile'))
@@ -122,7 +125,7 @@ def test1():
 
     encryptedText=request.form.get("encryptedText")
     encryptionKey=request.form.get("encryptionKey")
-    return "Your encrypted message is:" +  encryptedText + "the encryption key is: " + encryptionKey
+    return "Your encrypted message is:" +  encryptedText + " the encryption key is: " + encryptionKey
 
     
 

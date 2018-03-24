@@ -7,12 +7,21 @@ Digital File Encryption
 {% block content %}
 <div class="container">
 	<div class="row">
+		<h2>Settings</h2>
 		<form method="POST" action="/profile">
-			<h2>Settings</h2>
-			<div >
+			<div>
 				{{ form.hidden_tag() }}
 				Current Phone Number: {{ current_user.phoneNumber }}
 				{{ wtf.form_field(form.phoneNumber) }}
+			</div>
+				
+			<div>
+				<p>Current public key: {{current_user.publicKey }} </p>
+				Public key: <textarea id="publicKey" name="publicKey" readonly></textarea>
+				Private Key: <p id="privateKey"></p>
+				<p>To generate a public and private key, enter a passphrase which will be used to generate an RSA key</p>
+				<input type="text" name="passPhrase" id="passPhrase">
+				<input class="btn btn-primary" type="button" name="generateKeys" value="Generate Keys" onclick="createKeys()">
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
 			</div>
 		</form>
