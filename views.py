@@ -111,7 +111,8 @@ def profile():
         #TODO: update the database
         current_user.phoneNumber=form.phoneNumber.data
         #add users public key to to databse
-        current_user.publicKey=request.form.get("publicKey")
+        current_user.publicKey=request.form.get("hidePublicKey")
+        print(current_user.publicKey)
 
         db.session.commit()
         #flash('Your changes have been saved.')

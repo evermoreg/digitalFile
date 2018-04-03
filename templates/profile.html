@@ -17,12 +17,21 @@ Digital File Encryption
 				
 			<div>
 				<p>Current public key: {{current_user.publicKey }} </p>
-				Public key: <textarea id="publicKey" name="publicKey" readonly></textarea>
-				Private Key: <p id="privateKey"></p>
-				<p>To generate a public and private key, enter a passphrase which will be used to generate an RSA key</p>
-				<input type="text" name="passPhrase" id="passPhrase">
-				<input class="btn btn-primary" type="button" name="generateKeys" value="Generate Keys" onclick="createKeys()">
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+								
+				<input class="btn btn-primary" type="button" name="generatingKeys" value="Generate Keys" onclick="generateKeys()">
+
+				<!-- <input class="btn btn-primary" type="button" name="updatingBrowser" value="Update private Key" onclick="updateBrowser()"> -->
+
+				<div>
+					Public Key: 
+					<p id="publicKey"></p>
+					Private Key:
+					<p id="privateKey"></p>
+				</div>
+
+				<input type="text" name="hidePublicKey" id="hiddenPublicKey">
+				
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Update to server</button>
 			</div>
 		</form>
 	</div>

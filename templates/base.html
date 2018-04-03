@@ -43,14 +43,19 @@ Digital File Encryption
 
 {% block scripts %}
 <script type="text/javascript" src={{ url_for('static', filename='cryptoJS/aes1.js') }}></script>
-<script type="text/javascript" src={{ url_for('static', filename='cryptico/aes.js') }}></script>
+<!-- <script type="text/javascript" src={{ url_for('static', filename='cryptico/aes.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/api.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/cryptico.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/cryptico.min.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/hash.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/jsbn.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/random.js') }}></script>
-<script type="text/javascript" src={{ url_for('static', filename='cryptico/rsa.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='cryptico/rsa.js') }}></script> -->
+
+<script type="text/javascript" src={{ url_for('static', filename='hybrid-crypto-js/hybrid-crypto.min.js') }}></script>
+
+<script type="text/javascript" src={{ url_for('static', filename='hybrid-crypto-js/rsaEncryption.js') }}></script>
+
 
 <script>
   
@@ -60,6 +65,7 @@ Digital File Encryption
     var enc=CryptoJS.AES.encrypt(message, encryptionKey);
     document.getElementById("encryptedText").value=enc; 
       }</script>
+
 <script>
   function check(cb){
     if(!cb.checked){
@@ -71,6 +77,7 @@ Digital File Encryption
       }
     }</script>
 
+<!--
 <script>
   function createKeys(){
     var passPhrase=document.getElementById("passPhrase").value;
@@ -80,6 +87,6 @@ Digital File Encryption
     //str=JSON.stringify(tatPublicKey, null, 4);
     document.getElementById("publicKey").innerHTML=PublicKey;
     }
-  </script>
+  </script> -->
 
 {% endblock %}
