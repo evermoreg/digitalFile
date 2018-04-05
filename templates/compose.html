@@ -15,16 +15,27 @@ Compose
 	</form>
 	-->
 
-	<form method="POST" enctype="multipart/form-data" action="{{ url_for('test1') }}">
+	<form method="POST" enctype="multipart/form-data" action="{{ url_for('upload') }}">
+		TO: <input type="text" name="recipient" value="{{ recipient.email }}"> <br>
+		Recipients Public Key:
+		<input type="text" name="recipientPubliKey" value="{{ recipient.publicKey }}" id="recPublicKey"><br>
 		Message: 
-		<input type="text" name="message" id="messageTextBox">
-		<input type="text" name="encryptionKey" id="encryptionKey">
-		Select a File: 
+		<input type="text" name="message" id="messageTextBox"><br>
+		Select a File:
+		<!-- try base64 encoding to convert the values of the files --> 
 		<input id="checkbox" type="checkbox" onclick="check(this)">
-		<input id="chooseFile" type="file" name="sendFile">
-		<input type="submit" name="submit" onclick="encrypt()" value="encrypt">
-		<input id="encryptedText" type="text" name="encryptedText">
-
+		<input id="chooseFile" type="file" name="sendFile"><br>
+		Enter your AES encryption key:
+		<input type="text" name="encryptionKey" id="encryptionKeyTextBox">
+		
+		<input type="button" name="aesEncryption" onclick="encryptAES()" value="encrypt"> <br>
+		AES encrypted Text:
+		<input id="encryptedText" type="text" name="encryptedMessage"><br>
+		 <h5>Public key encryption</h5>
+		 <input type="button" name="RSAEncrypt" value="RSA Encryption" onclick="RSAEncryption()"> <br>
+		 Encrypted Data:
+		 <input type="text" id="sendData" name="rsaEncryptedKey"><br>
+	
 		<input type="submit" name="submit" value="send">
 	</form> 
 

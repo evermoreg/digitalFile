@@ -7,10 +7,26 @@ Message
 {% block content %}
 <div class="container">
 	<div>
+		FROM:
+		<!-- Surround this with a tag and use that id to call on JavaScript -->
 		{{ message.sender }} <br>
 	</div>
 	<div>
+		ENCRYPTED MESSAGE:
 		{{ message.message }} <br>
+	</div>
+	<div>
+		<!-- part of this section is deprecated by the above comment -->
+		RSA Key: <input type="text" name="hiddenRSAKey" id="hideRSAKey" value="{{ message.rsaEncryptedKey }}"><br>
+		Encrypted Message:<input type="text" name="hiddenMessage" id="hideMessage" value="{{ message.message}}">
+
+		<input type="button" name="decrypt" id="clickToDecrypt" value="Click to decrypt" onclick="decryptRSAKey()"> <br>
+
+		AES KEY:<input type="text" name="rsaKey" id="decryptedRSAKey">
+
+		Message:<input type="text" name="message" id="decryptedMessage">
+
+
 	</div>	
 	<div>
 		<a href="/download/{{ message.id }}">Download</a>

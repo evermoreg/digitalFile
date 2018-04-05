@@ -59,15 +59,25 @@ def home():
 @app.route('/upload', methods=['POST'])
 def upload():
     form=messageForm()
-    if form.validate_on_submit():
-        receiver=form.receiver.data
-        message=form.message.data
+    if not form.validate_on_submit():
+        '''VULNERABILITY! The email used in the method checkMail must be similar to
+        the email used here. Otherwise a user might use the wrong public key for
+        the incorrect user '''
+        receiver=request.form['recipient']
+        #recipient line mistakenly deleted
+        aesEncryptedMessage=request.form['encryptedMessage']
+        rsaEncryptedKey=request.form['rsaEncryptedKey']
+
+        ''' #message=form.message.data
+        #files are temporarily disabled
         file=form.file.data
         filename=secure_filename(file.filename)
-        
+
+        '''
         #add security checks
 
-        newMessage = Messages(sender=current_user.email, receiver=receiver, file=file.read(), message=message)
+        #newMessage = Messages(sender=current_user.email, receiver=receiver, file=file.read(), message=message)
+        newMessage = Messages(sender=current_user.email, receiver=receiver, message=aesEncryptedMessage, rsaEncryptedKey=rsaEncryptedKey)
         db.session.add(newMessage)
         db.session.commit()
 
@@ -75,7 +85,8 @@ def upload():
         phoneNumber="+263"+str(receiverPhone.phoneNumber)
         Twilio.phoneMessage(phoneNumber, current_user.email)
 
-    return 'Saved ' + file.filename + ' to the database! from user ' + current_user.email + ' to user ' + receiver
+        return 'Saved ' + ' to the database! from user ' + current_user.email
+    return "Not sent"
 
 @app.route('/inbox')
 @login_required
@@ -87,7 +98,7 @@ def inbox():
 @login_required
 def readMessage(senderID):
     message=Messages.query.get(senderID)
-    return render_template('readMessage.html', message=message )
+    return render_template('readMessage.html', message=message)
     
 @app.route('/download/<fileID>')
 @login_required
@@ -106,14 +117,12 @@ def compose():
 @login_required
 def profile():
     form=profileForm()
-
     if form.validate_on_submit():
         #TODO: update the database
         current_user.phoneNumber=form.phoneNumber.data
         #add users public key to to databse
-        current_user.publicKey=request.form.get("hidePublicKey")
-        print(current_user.publicKey)
-
+        current_user.publicKey=request.form.get('hidePublicKey')
+        current_user.signingKey=request.form.get('hideSigningKey')
         db.session.commit()
         #flash('Your changes have been saved.')
         return redirect(url_for('profile'))
@@ -128,5 +137,15 @@ def test1():
     encryptionKey=request.form.get("encryptionKey")
     return "Your encrypted message is:" +  encryptedText + " the encryption key is: " + encryptionKey
 
+@app.route('/checkEmail', methods=['POST', 'GET'])
+@login_required
+def checkEmail():
+    if request.method=='POST':
+        recipientEmail=request.form['recipientEmail']
+        recipient=User.query.filter_by(email=recipientEmail).first()
+        #print("GOT EMAIL")
+        return render_template('compose.html', recipient=recipient)
+    else:
+        return render_template('checkEmail.html')
     
 

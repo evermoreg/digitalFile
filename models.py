@@ -8,6 +8,7 @@ class User(UserMixin, db.Model):
     email=db.Column(db.String(50), primary_key=True)
     password=db.Column(db.String(80))
     publicKey=db.Column(db.String(500))
+    signingKey=db.Column(db.String(100))
     phoneNumber=db.Column(db.Integer)
     messageSent=db.relationship('Messages', backref='author', lazy='dynamic')
 
@@ -18,13 +19,14 @@ class User(UserMixin, db.Model):
     	return '<User {}>'.format(self.email)
 
 class Messages(db.Model):
-	id=db.Column(db.Integer, primary_key=True)
-	receiver=db.Column(db.String(50))
-	file=db.Column(db.LargeBinary)
-	message=db.Column(db.String(500))
-	timestamp=db.Column(db.DateTime, index=True, default=datetime.utcnow)
-	sender=db.Column(db.String(50), db.ForeignKey('user.email'))
+    id=db.Column(db.Integer, primary_key=True)
+    receiver=db.Column(db.String(50))
+    file=db.Column(db.LargeBinary)
+    message=db.Column(db.String(5000))
+    rsaEncryptedKey=db.Column(db.String(5000))
+    timestamp=db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    sender=db.Column(db.String(50), db.ForeignKey('user.email'))
 
-	def __repr__(self):
-		return '<Message {} {}>'.format(self.message, self.file)
+    def __repr__(self):
+        return '<Message {} {}>'.format(self.message, self.file)
 
