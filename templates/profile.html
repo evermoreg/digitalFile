@@ -16,21 +16,24 @@ Digital File Encryption
 			</div>
 				
 			<div>
+				<h3>Generate Public and Private Keys</h3>
 				<p>Current public key: {{current_user.publicKey }} </p>
 								
-				<input class="btn btn-primary" type="button" name="generatingKeys" value="Generate Keys" onclick="generateKeys()">
+				<!-- <input class="btn btn-primary" type="button" name="generatingKeys" value="Generate Keys" onclick="generateKeys()"> -->
+				Enter a passphrase to generate a your keys.
+				<input type="text" name="passphrase" id="phrase" >
 
-				<!-- <input class="btn btn-primary" type="button" name="updatingBrowser" value="Update private Key" onclick="updateBrowser()"> -->
+				<input type="button" name="generateUserKey" id="generateKeys" class="btn btn-primary" onclick="generateUserKeys()" value="Generate keys">
 
 				<div>
 					Public Key: 
-					<p id="publicKey"></p>
-					Private Key:
-					<p id="privateKey"></p>
-				</div>
+					<p id="publicKey"></p><br>
+					Signing Key:
+					<p id="signingKey"></p>
 
-				<input type="text" name="hidePublicKey" id="hiddenPublicKey">
-				
+				Public Key: <input type="text" name="hidePublicKey" id="hiddenPublicKey"><br>
+				Signing Key:<input type="text" name="hideSigningKey" id="signature">
+
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Update to server</button>
 			</div>
 		</form>

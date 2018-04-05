@@ -14,15 +14,16 @@ class RegisterForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
 
 class messageForm(FlaskForm):
-	 receiver=StringField('to', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
-	 message=StringField('message')
-	 file=FileField()
-	 #use this when combining JS and flask_form
-	 #sendMessage=SubmitField("Send", id="sendEncryptedMessage")
+	pass
+	#receiver=StringField('to', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
+	#message=StringField('message')
+	#file=FileField()
+	#use this when combining JS and flask_form
+	#sendMessage=SubmitField("Send", id="sendEncryptedMessage")
 
 class profileForm(FlaskForm):
-	#password
 	phoneNumber = IntegerField('Phone Number')
+	#password
 	#publicKey
 	#username
 

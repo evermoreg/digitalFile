@@ -43,29 +43,24 @@ Digital File Encryption
 
 {% block scripts %}
 <script type="text/javascript" src={{ url_for('static', filename='cryptoJS/aes1.js') }}></script>
-<!-- <script type="text/javascript" src={{ url_for('static', filename='cryptico/aes.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='cryptico/aes.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/api.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/cryptico.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/cryptico.min.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/hash.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/jsbn.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/random.js') }}></script>
-<script type="text/javascript" src={{ url_for('static', filename='cryptico/rsa.js') }}></script> -->
+<script type="text/javascript" src={{ url_for('static', filename='cryptico/rsa.js') }}></script>
+<!-- <script type="text/javascript" src={{ url_for('static', filename='hybrid-crypto-js/hybrid-crypto.min.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='hybrid-crypto-js/rsaEncryption.js') }}></script> -->
 
-<script type="text/javascript" src={{ url_for('static', filename='hybrid-crypto-js/hybrid-crypto.min.js') }}></script>
-
-<script type="text/javascript" src={{ url_for('static', filename='hybrid-crypto-js/rsaEncryption.js') }}></script>
-
-
-<script>
-  
-  function encrypt(){
+<script> 
+  function encryptAES(){
   var message=document.getElementById("messageTextBox").value;
-    var encryptionKey=document.getElementById("encryptionKey").value;
+    var encryptionKey=document.getElementById("encryptionKeyTextBox").value;
     var enc=CryptoJS.AES.encrypt(message, encryptionKey);
     document.getElementById("encryptedText").value=enc; 
       }</script>
-
 <script>
   function check(cb){
     if(!cb.checked){
@@ -76,17 +71,53 @@ Digital File Encryption
       document.getElementById("chooseFile").disabled=true;
       }
     }</script>
-
-<!--
 <script>
-  function createKeys(){
-    var passPhrase=document.getElementById("passPhrase").value;
+  function generateUserKeys(){
+    var passPhrase=document.getElementById("phrase").value;
+    //allow user to set the required bits.
     var bits=1024;
-    var RSAKey=cryptico.generateRSAKey(passPhrase, bits);
+    localStorage.userPassphrase=passPhrase;
+    //alert(localStorage.userPassphrase);
+    var RSAKey=cryptico.generateRSAKey(localStorage.userPassphrase, bits);
     var PublicKey=cryptico.publicKeyString(RSAKey);
-    //str=JSON.stringify(tatPublicKey, null, 4);
+    var signingKey=cryptico.publicKeyID(PublicKey);
+    alert(signingKey);
+    //getting paragrapg elements in sync to assist the user
     document.getElementById("publicKey").innerHTML=PublicKey;
+    document.getElementById("signingKey").innerHTML=signingKey;
+    //hide these tags letter to pass them to the backend
+    document.getElementById("hiddenPublicKey").value=PublicKey;
+    document.getElementById("signature").value=signingKey;
     }
-  </script> -->
+  </script>
+<script>
+  function RSAEncryption(){
+    var aesPlaintext=document.getElementById("encryptionKeyTextBox").value;
+    //users passphrase for signing
+    var passphrase=localStorage.userPassphrase;
+    
+    var bits=1024;
+    userRSAKey=cryptico.generateRSAKey(passphrase, bits);
+    //public key is for signing
+    userPublicKey=cryptico.publicKeyString(userRSAKey);
+    //recPublicKey for encrypting
+    var recPublicKey=document.getElementById("recPublicKey").value;
+    var encryptedData=cryptico.encrypt(aesPlaintext, recPublicKey);
+    document.getElementById("sendData").value=encryptedData.cipher;}</script>
+<script>
+  function decryptRSAKey(){
+    var cipherText=document.getElementById("hideRSAKey").value;
+    var userRSAKey=cryptico.generateRSAKey(localStorage.userPassphrase, 1024);
+    var plainText=cryptico.decrypt(cipherText, userRSAKey);
+    document.getElementById("decryptedRSAKey").value=plainText.plaintext;
 
+
+    var aesEnc=document.getElementById("hideMessage").value;
+
+    var bytes=CryptoJS.AES.decrypt(aesEnc, plainText.plaintext);
+    
+    var message=bytes.toString(CryptoJS.enc.Utf8);
+    document.getElementById("decryptedMessage").value=message;
+  }
+</script>
 {% endblock %}
