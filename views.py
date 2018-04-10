@@ -32,6 +32,9 @@ def login():
 def signup():
     form = RegisterForm()
     if form.validate_on_submit():
+        email=form.email.data
+        # TODO: Issue 1 -- validate users email. email has a unique constraint in the database.
+        #print(User.query.filter_by(email=email).all())
         hashed_password = generate_password_hash(form.password.data, method='sha256')
         new_user = User(email=form.email.data, password=hashed_password)
         db.session.add(new_user)
@@ -81,10 +84,10 @@ def upload():
         db.session.add(newMessage)
         db.session.commit()
 
-        receiverPhone=User.query.filter_by(email=receiver).first()
+        '''receiverPhone=User.query.filter_by(email=receiver).first()
         phoneNumber="+263"+str(receiverPhone.phoneNumber)
         Twilio.phoneMessage(phoneNumber, current_user.email)
-
+        '''
         return 'Saved ' + ' to the database! from user ' + current_user.email
     return "Not sent"
 
