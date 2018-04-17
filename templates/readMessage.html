@@ -16,11 +16,11 @@ Message
 	<hr>
 	<div>		
 		<span>
-			RSA Key:<textarea type="text" name="hiddenRSAKey" id="hideRSAKey" value="{{ message.rsaEncryptedKey }}" cols="150" rows="5"></textarea>
+			RSA Key:<input type="text" name="hiddenRSAKey" id="hideRSAKey" value="{{ message.rsaEncryptedKey }}" cols="150" rows="5">
 		</span><br>
 
 		<span>
-			Encrypted Message:<textarea type="text" name="hiddenMessage" id="hideMessage" value="{{ message.message}}" cols="150" rows="5" ></textarea>
+			Encrypted Message:<input type="text" name="hiddenMessage" id="hideMessage" value="{{ message.message }}" cols="150" rows="5" >
 		</span><br>
 
 		<span>
@@ -28,10 +28,10 @@ Message
 		</span><br><hr>
 
 		<span>
-			<textarea AES KEY:<input type="text" name="rsaKey" id="decryptedRSAKey" cols="150" rows"5"></textarea>
+			<input AES KEY:<input type="text" name="rsaKey" id="decryptedRSAKey" cols="150" rows"5">
 		</span><br><hr>
 
-		Message:<textarea type="text" name="message" id="decryptedMessage" cols="150" rows="5"></textarea>
+		Message:<input type="text" name="message" id="decryptedMessage" cols="150" rows="5">
 	</div>	
 
 	<div>
