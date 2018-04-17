@@ -8,7 +8,7 @@ class User(UserMixin, db.Model):
     email=db.Column(db.String(50), primary_key=True)
     password=db.Column(db.String(80))
     publicKey=db.Column(db.String(500))
-    signingKey=db.Column(db.String(100))
+    #signingKey=db.Column(db.String(100))
     phoneNumber=db.Column(db.Integer)
     messageSent=db.relationship('Messages', backref='author', lazy='dynamic')
 
@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
     	return str(self.email)
 
     def __repr__(self):
-    	return '<User {}>'.format(self.email)
+    	return '{}'.format(self.email)
 
 class Messages(db.Model):
     id=db.Column(db.Integer, primary_key=True)
@@ -28,5 +28,5 @@ class Messages(db.Model):
     sender=db.Column(db.String(50), db.ForeignKey('user.email'))
 
     def __repr__(self):
-        return '<Message {} {}>'.format(self.message, self.file)
+        return '{} {}'.format(self.message, self.file)
 

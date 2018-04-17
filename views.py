@@ -144,9 +144,10 @@ def test1():
 @login_required
 def checkEmail():
     if request.method=='POST':
+        #validation
         recipientEmail=request.form['recipientEmail']
         recipient=User.query.filter_by(email=recipientEmail).first()
-        #print("GOT EMAIL")
+        
         return render_template('compose.html', recipient=recipient)
     else:
         return render_template('checkEmail.html')
