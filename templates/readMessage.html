@@ -6,37 +6,37 @@ Message
 
 {% block content %}
 <div class="container">
-	<div>
-		<span>FROM:{{ message.sender }}</span><br>
-	</div>
-	<hr>
-	<div>
-		<span>ENCRYPTED MESSAGE:{{ message.message }}</span><br>
-	</div>
+	
+	<h2 class="sub-header">from: {{ message.sender }}</h2><hr>
+	<h4>encrypted message</h4><br>
+	
+	<p class="jumbotron" style="word-break: break-all; white-space: normal;">
+		{{ message.message }}
+	</p>
 	<hr>
 	<div>		
-		<span>
-			RSA Key:<input type="text" name="hiddenRSAKey" id="hideRSAKey" value="{{ message.rsaEncryptedKey }}" cols="150" rows="5">
-		</span><br>
+		<h4>aes key:</h4>
+		<p class="jumbotron" style="word-break: break-all; white-space: normal;">
+			{{ message.rsaEncryptedKey }}
+		</p>
 
-		<span>
-			Encrypted Message:<input type="text" name="hiddenMessage" id="hideMessage" value="{{ message.message }}" cols="150" rows="5" >
-		</span><br>
-
-		<span>
-			<input type="button" name="decrypt" id="clickToDecrypt" value="Click to decrypt" onclick="decryptRSAKey()">
-		</span><br><hr>
-
-		<span>
-			<input AES KEY:<input type="text" name="rsaKey" id="decryptedRSAKey" cols="150" rows"5">
-		</span><br><hr>
-
-		Message:<input type="text" name="message" id="decryptedMessage" cols="150" rows="5">
+		<!-- Hidden text fields to pass to Javascript -->
+		<input type="hidden" name="hiddenRSAKey" id="hideRSAKey" value="{{ message.rsaEncryptedKey }}">
+		<input type="hidden" name="hiddenMessage" id="hideMessage" value="{{ message.message }}">
+		
+		<input class="btn" style="padding: 14px 24px; border: 1 none; font-weight: 700; letter-spacing: 1px;" value="Click to decrypt" onclick="decryptRSAKey()">
+		<hr>
+		<h4>decrypted aes key</h4>
+		<p class="jumbotron" style="word-break: break-all; white-space: normal;" id="decryptedRSAKey"></p>
+		
+		<h4>message</h4>
+		<p class="jumbotron" style="word-break: break-all; white-space: normal;" id="decryptedMessage"></p>
 	</div>	
 
-	<div>
+	<!--<div>
 		<a href="/download/{{ message.id }}">Download</a>
 		{{ message.timestamp }}
-	</div>
+	</div>-->
 </div>
 {% endblock %}
+
