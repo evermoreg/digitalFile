@@ -1,0 +1,33 @@
+		<!-- '''{{ form.hidden_tag() }}
+		{{ wtf.form_field(form.receiver) }}
+		{{ wtf.form_field(form.message) }}
+    	{{ wtf.form_field(form.file) }}
+		Send To:<input type="text" name="receiver">
+		Message:<input type="text" name="message">
+		<input type="file" name="file">''' -->
+
+{{ form.hidden_tag() }}
+		{{ wtf.form_field(form.receiver) }}
+		{{ wtf.form_field(form.message) }}
+    	{{ wtf.form_field(form.file) }}
+    	{{ wtf.form_field(form.sendMessage)}}
+		Send To:<input type="text" name="receiver">
+		Message:<input type="text" name="message">
+		<input type="file" name="file">
+
+
+		RSA workflow
+
+Back-end	Front-end	Task
+				x		user profile must have an option to 		generate a public and private key in 		 the profile page.
+
+	x					store the public key in database and 			x 	 display it to the user. profile.html
+
+				x		store the private key somwhere in 			the machine (cookies/file) ==> 		        localStorage
+				
+				x		collect another users public key 			compose.html
+
+				x use that public key to encrypt 
+
+
+		Back-end

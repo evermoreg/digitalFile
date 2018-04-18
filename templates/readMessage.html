@@ -6,15 +6,37 @@ Message
 
 {% block content %}
 <div class="container">
-	<div>
-		{{ message.sender }} <br>
-	</div>
-	<div>
-		{{ message.message }} <br>
+	
+	<h2 class="sub-header">from: {{ message.sender }}</h2><hr>
+	<h4>encrypted message</h4><br>
+	
+	<p class="jumbotron" style="word-break: break-all; white-space: normal;">
+		{{ message.message }}
+	</p>
+	<hr>
+	<div>		
+		<h4>aes key:</h4>
+		<p class="jumbotron" style="word-break: break-all; white-space: normal;">
+			{{ message.rsaEncryptedKey }}
+		</p>
+
+		<!-- Hidden text fields to pass to Javascript -->
+		<input type="hidden" name="hiddenRSAKey" id="hideRSAKey" value="{{ message.rsaEncryptedKey }}">
+		<input type="hidden" name="hiddenMessage" id="hideMessage" value="{{ message.message }}">
+		
+		<input class="btn" style="padding: 14px 24px; border: 1 none; font-weight: 700; letter-spacing: 1px;" value="Click to decrypt" onclick="decryptRSAKey()">
+		<hr>
+		<h4>decrypted aes key</h4>
+		<p class="jumbotron" style="word-break: break-all; white-space: normal;" id="decryptedRSAKey"></p>
+		
+		<h4>message</h4>
+		<p class="jumbotron" style="word-break: break-all; white-space: normal;" id="decryptedMessage"></p>
 	</div>	
-	<div>
+
+	<!--<div>
 		<a href="/download/{{ message.id }}">Download</a>
 		{{ message.timestamp }}
-	</div>
+	</div>-->
 </div>
 {% endblock %}
+

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, SubmitField, HiddenField
 from flask_wtf.file import FileField
 from wtforms.validators import InputRequired, Email, Length
 from werkzeug.utils import secure_filename
@@ -14,13 +14,18 @@ class RegisterForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
 
 class messageForm(FlaskForm):
-	 receiver=StringField('to', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
-	 message=StringField('message')
-	 file=FileField()
+	pass
+	#receiver=StringField('to', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
+	#message=StringField('message')
+	#file=FileField()
+	#use this when combining JS and flask_form
+	#sendMessage=SubmitField("Send", id="sendEncryptedMessage")
 
 class profileForm(FlaskForm):
+	phoneNumber=IntegerField('phone number')
+	passphrase=StringField('passphrase')
+	publicKey=HiddenField('public key')
 	#password
-	phoneNumber = IntegerField('Phone Number')
 	#publicKey
 	#username
 
