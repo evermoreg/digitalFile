@@ -123,7 +123,6 @@ def profile():
         current_user.phoneNumber=form.phoneNumber.data
         #add users public key to to databse
         current_user.publicKey=form.publicKey.data
-        print(current_user.publicKey)
         current_user.signingKey=request.form.get('hideSigningKey')
         db.session.commit()
         #flash('Your changes have been saved.')
