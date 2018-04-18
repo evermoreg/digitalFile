@@ -16,6 +16,7 @@ Compose
 -->
 
 <form method="POST" enctype="multipart/form-data" action="{{ url_for('upload') }}">
+	
 	<h2>to:</h2>
 	{{ recipient.email }}<br>
 	<input type="text" hidden="True" name="recipientName" value="{{ recipient.email }}">
