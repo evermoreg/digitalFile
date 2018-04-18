@@ -5,25 +5,25 @@ Inbox
 {% endblock %}
 
 {% block content %}
+<div class="container">
  	<div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Message</th>
-                  <th>Time</th>
                   <th>Sender</th>
+                  <th>Time</th>
                 </tr>
               </thead>
               <tbody>
           {% for message in messages%}
           <tr>
-					<td>{{ message.message }}</td>
-					<td>{{ message.timestamp }}</td>
 					<td>{{ message.sender }}</td>
+          <td>{{ moment(message.timestamp).format('LLL') }}</td>
           <td><a href="/readMessage/{{ message.id }}">Click to Open</a></td>
           </tr>
           {% endfor %}
             </tbody>
         </table>
     </div>
+</div>
 {% endblock content %}

@@ -60,13 +60,12 @@ def home():
     return render_template('home.html', contactList=contactList, name=current_user.email)
 
 @app.route('/upload', methods=['POST'])
+@login_required
 def upload():
     form=messageForm()
     if not form.validate_on_submit():
-        '''VULNERABILITY! The email used in the method checkMail must be similar to
-        the email used here. Otherwise a user might use the wrong public key for
-        the incorrect user '''
-        receiver=request.form['recipient']
+     
+        receiver=request.form['recipientName']
         #recipient line mistakenly deleted
         aesEncryptedMessage=request.form['encryptedMessage']
         rsaEncryptedKey=request.form['rsaEncryptedKey']
@@ -75,7 +74,6 @@ def upload():
         #files are temporarily disabled
         file=form.file.data
         filename=secure_filename(file.filename)
-
         '''
         #add security checks
 
@@ -124,7 +122,8 @@ def profile():
         #TODO: update the database
         current_user.phoneNumber=form.phoneNumber.data
         #add users public key to to databse
-        current_user.publicKey=request.form.get('hidePublicKey')
+        current_user.publicKey=form.publicKey.data
+        print(current_user.publicKey)
         current_user.signingKey=request.form.get('hideSigningKey')
         db.session.commit()
         #flash('Your changes have been saved.')

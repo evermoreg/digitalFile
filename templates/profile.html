@@ -7,36 +7,32 @@ Digital File Encryption
 {% block content %}
 <div class="container">
 	<div class="row">
-		<h2>Settings</h2>
+		<h1>Settings</h1>
 		<form method="POST" action="/profile">
 			<div>
 				{{ form.hidden_tag() }}
-				Current Phone Number: {{ current_user.phoneNumber }}
-				{{ wtf.form_field(form.phoneNumber) }}
-			</div>
-				
-			<div>
+				<h3><label>Current Phone Number:</label></h3>
+				<p class="text-muted" style="font-size: 18px;">{{ current_user.phoneNumber }}<br>This will phone number will receive notifications when a message has been sent to you.</p>
+				{{ wtf.form_field(form.phoneNumber) }}<hr>
+
 				<h3>Generate Public and Private Keys</h3>
-				<p>Current public key: {{current_user.publicKey }} </p>
-								
-				<!-- <input class="btn btn-primary" type="button" name="generatingKeys" value="Generate Keys" onclick="generateKeys()"> -->
-				Enter a passphrase to generate a your keys.
-				<input type="text" name="passphrase" id="phrase" >
+				<h6>Current public key</h6>
+				<p class="jumbotron" style="word-break: break-all; white-space: normal;">{{current_user.publicKey }}</p>
+				<p class="jumbotron" style="background-color: #c2c2d6;">Our software uses RSA encryption. We need a random passphrase to generate a public that you can share with anyone who wants to send you a message anonymously. By clicking generate keys, you have not yet published your public key to our public key infrastructure (PKI). Proceed to click <span>Update Server</span> to publish your public key. We will not show you your private key becase an attacker can take a screen shot of it and can access your messges.<br>By random we mean <span class="text-muted" style="font-size: 13px;">lorem ipsum som yum coulds gottrenigje faseting</span></p>
 
-				<input type="button" name="generateUserKey" id="generateKeys" class="btn btn-primary" onclick="generateUserKeys()" value="Generate keys">
+				{{ wtf.form_field(form.passphrase) }}
+				<!-- Vulnerability!!! if the passphrase is served from backend then the server can get the passphrase and recreate the private key for decryption. Alternatively uncomment the line below to allow the passphrase to be manipulated from the client side only.-->
+				<!-- <input type="text" name="passphrase" id="phrase" > -->
 
-				<div>
-					Public Key: 
-					<p id="publicKey"></p><br>
-					Signing Key:
-					<p id="signingKey"></p>
+				<input type="button" name="generateUserKey" id="generateKeys" class="btn btn-primary" onclick="generateUserKeys()" style="margin-bottom: 7px;" value="Generate keys"><br>
 
-				Public Key: <input type="text" name="hidePublicKey" id="hiddenPublicKey"><br>
-				Signing Key:<input type="text" name="hideSigningKey" id="signature">
-
+				<label>Generated public key</label>
+				<p class="jumbotron" style="word-break: break-all; white-space: normal;" id="publicKeyParagraph"></p><br>
+				{{ form.publicKey }}				
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Update to server</button>
 			</div>
 		</form>
 	</div>
 </div>
 {% endblock %}
+

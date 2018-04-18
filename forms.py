@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, IntegerField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, SubmitField, HiddenField
 from flask_wtf.file import FileField
 from wtforms.validators import InputRequired, Email, Length
 from werkzeug.utils import secure_filename
@@ -22,7 +22,9 @@ class messageForm(FlaskForm):
 	#sendMessage=SubmitField("Send", id="sendEncryptedMessage")
 
 class profileForm(FlaskForm):
-	phoneNumber = IntegerField('Phone Number')
+	phoneNumber=IntegerField('phone number')
+	passphrase=StringField('passphrase')
+	publicKey=HiddenField('public key')
 	#password
 	#publicKey
 	#username

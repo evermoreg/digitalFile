@@ -9,13 +9,15 @@ Check Validity of Emails
 <div class="container">
 	<div class="row">
 		<h2>Enter the recipients address</h2>
+		<p class="text-muted">Inoder to successfully send a message in an unencrypted network. You need the public key of the recipient.Enter the users email address below and we will collect their public key.</p>
 
-	<form action="{{ url_for('checkEmail') }}" method="POST" enctype="multipart/form-data">
-		Recipient's Email: <input type="text" name="recipientEmail">
+		<form action="{{ url_for('checkEmail') }}" method="POST" enctype="multipart/form-data">
+			<h2>Recipient's Email</h2>
+			<input type="text" class="form-control" name="recipientEmail">
 
-		<input type="submit" name="Check Email" value="Check EMAIL">
+			<input type="submit" class="btn" style="margin-top: 15px;" name="Check Email" value="Check Public Address">
 
-	</form>
+		</form>
 	</div>
 </div>
 {% endblock content%}
