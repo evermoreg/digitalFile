@@ -14,10 +14,33 @@ Check Validity of Emails
 		<form action="{{ url_for('checkEmail') }}" method="POST" enctype="multipart/form-data">
 			<h2>Recipient's Email</h2>
 			<input type="text" class="form-control" name="recipientEmail">
-
 			<input type="submit" class="btn" style="margin-top: 15px;" name="Check Email" value="Check Public Address">
-
 		</form>
+		<h2 class="sub-header">Results</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>email</th>
+                  <th>public key</th>
+                  <th>organisation</th>
+                  <th>Header</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for key in allKeys: %}
+                <tr>
+                  <td>{{ key.email }}</td>
+                  <td>{{ key.publicKey[:50] + "..." }}</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
 	</div>
 </div>
 {% endblock content%}

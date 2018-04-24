@@ -81,12 +81,13 @@ def upload():
         newMessage = Messages(sender=current_user.email, receiver=receiver, message=aesEncryptedMessage, rsaEncryptedKey=rsaEncryptedKey)
         db.session.add(newMessage)
         db.session.commit()
-
-        '''receiverPhone=User.query.filter_by(email=receiver).first()
+        '''
+        receiverPhone=User.query.filter_by(email=receiver).first()
         phoneNumber="+263"+str(receiverPhone.phoneNumber)
         Twilio.phoneMessage(phoneNumber, current_user.email)
         '''
-        return 'Saved ' + ' to the database! from user ' + current_user.email
+        
+        return 'Message has been sent from user ' + current_user.email
     return "Not sent"
 
 @app.route('/inbox')
@@ -148,6 +149,7 @@ def checkEmail():
         
         return render_template('compose.html', recipient=recipient)
     else:
-        return render_template('checkEmail.html')
+        allKeys=User.query.filter_by().all()
+        return render_template('checkEmail.html', allKeys=allKeys)
     
 
