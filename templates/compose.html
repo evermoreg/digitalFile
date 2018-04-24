@@ -28,17 +28,19 @@ Compose
 	<textarea class="form-control" name="message" id="messageTextBox" rows="7"></textarea><br>
 	<!--Select a File:
 	<!-- try base64 encoding to convert the values of the files --> 
-	<input id="checkbox" type="checkbox" onclick="check(this)">
-	<input id="chooseFile" type="file" name="sendFile"><br>
+	<!--<input id="checkbox" type="checkbox" onclick="check(this)">
+	 <input id="chooseFile" type="file" name="sendFile">--><br>
 	Enter your AES encryption key:
-	<input class="form-control" type="text" name="encryptionKey" id="encryptionKeyTextBox">
+	<input class="form-control" type="text" name="encryptionKey" id="encryptionKeyTextBox"> 
 
 	<input class="btn" style="margin-top: 15px;" type="button" name="aesEncryption" onclick="encryptAES()" value="encrypt"> <br>
 	<h4>AES encrypted Text</h4>
 	<input id="encryptedText" hidden="True" type="text" name="encryptedMessage"><br>
 	<p class="jumbotron" style="word-break: break-all; white-space: normal;" id="aesEncryptedText"></p>
 	<h6 class="text-muted">public key encryption</h6>
-	<input class="btn" type="button" name="RSAEncrypt" value="RSA Encryption" onclick="RSAEncryption()"> <br>
+	<span>Click to sign your message: </span>
+	<input type="checkbox" name="signCheck" id="signCheck"><br>
+	<input class="btn" type="button" name="RSAEncrypt" value="RSA Encryption" onclick="RSAEncryption()"><br>
 	<h4>Encrypted Data:</h4>
 	<input type="text" hidden="True" id="sendData" name="rsaEncryptedKey"><br>
 	<p class="jumbotron" style="word-break: break-all; white-space: normal;" id="rsaEncrypted"></p>

@@ -46,6 +46,7 @@ Digital File Encryption
 {{ super() }}
 {{ moment.include_moment() }}
 <script type="text/javascript" src={{ url_for('static', filename='cryptoJS/aes1.js') }}></script>
+<script type="text/javascript" src={{ url_for('static', filename='cryptoJS/sha3.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/aes.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/api.js') }}></script>
 <script type="text/javascript" src={{ url_for('static', filename='cryptico/cryptico.js') }}></script>
@@ -97,16 +98,25 @@ Digital File Encryption
 <script>
   function RSAEncryption(){
     var aesPlaintext=document.getElementById("encryptionKeyTextBox").value;
-    //users passphrase for signing
+        //users passphrase for signing
     var passphrase=localStorage.userPassphrase;
-    
     var bits=1024;
     userRSAKey=cryptico.generateRSAKey(passphrase, bits);
     //public key is for signing
     userPublicKey=cryptico.publicKeyString(userRSAKey);
     //recPublicKey for encrypting
     var recPublicKey=document.getElementById("recPublicKey").value;
-    var encryptedData=cryptico.encrypt(aesPlaintext, recPublicKey);
+    if (document.getElementById("signCheck").checked){
+      var encryptedData=cryptico.encrypt(aesPlaintext, recPublicKey, userRSAKey);
+    }
+    else{
+      var encryptedData=cryptico.encrypt(aesPlaintext, recPublicKey);
+    }
+
+    //messageHash sha3
+    //var messageHash=CryptoJS.SHA3(aesPlaintext);
+    //encrypting Hash
+    //alert(encryptedHash.cipher);
     document.getElementById("sendData").value=encryptedData.cipher;  
   document.getElementById("rsaEncrypted").innerHTML=encryptedData.cipher;}</script>
 
@@ -115,6 +125,7 @@ Digital File Encryption
       var cipherText=document.getElementById("hideRSAKey").value;
       var userRSAKey=cryptico.generateRSAKey(localStorage.userPassphrase, 1024);
       var plainText=cryptico.decrypt(cipherText, userRSAKey);
+      alert(plainText.signature);
       document.getElementById("decryptedRSAKey").innerHTML=plainText.plaintext;
       var aesEnc=document.getElementById("hideMessage").value;
 
