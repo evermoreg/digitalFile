@@ -1,4 +1,4 @@
-from app import app, login_manager, db
+from app import app, login_manager, db, s, mail
 from flask import redirect, url_for, request, send_file
 from forms import LoginForm, RegisterForm, messageForm, profileForm
 from flask import render_template
@@ -9,6 +9,9 @@ from models import User, Messages
 from sqlalchemy import desc
 from io import BytesIO
 from smsAPI import Twilio
+from flask_mail import Mail, Message
+
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -35,12 +38,39 @@ def signup():
         email=form.email.data
         # TODO: Issue 1 -- validate users email. email has a unique constraint in the database.
         #print(User.query.filter_by(email=email).all())
-        hashed_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = User(email=form.email.data, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        return '<h1>New user has been created!</h1>'
+        if User.query.filter_by(email=form.password.data).first() != None:
+            return '<h1>Username exists</h1>'
+        else:
+            #sending confirmation mail to user
+
+            token=s.dumps(form.email.data, salt='email-confirm')
+
+            msg=Message('Confirm email', sender='tatalmondmush@gmail.com', recipients=[form.email.data])
+            link=url_for('confirmMail', token=token, _external=True)
+            msg.body='Click the link: {} to confirm your email'.format(link)
+            mail.send(msg)
+
+
+            #adding user to database
+            hashed_password = generate_password_hash(form.password.data, method='sha256')
+            new_user = User(email=form.email.data, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+
+            return '<h1>New user has been created!</h1>'
     return render_template('signup.html', form=form)
+
+@app.route('/confirmMail/<token>')
+def confirmMail(token):
+    try:
+        email=s.loads(token, salt=email-confirm, max_age=3600)
+        user=User.query.filter_by(email=current_user.email).first()
+        user.confirmMail='True'
+        db.session.commit()
+    except SignatureExpired:
+        return 'signature expired'
+    return 'token works'  
+    
 
 @app.route('/dashboard')
 @login_required

@@ -4,16 +4,61 @@
 Sign Up
 {% endblock %}
 
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='mystyle.css')}}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-
-  <form class="form-signin" method="POST" action="/signup">
+<div class="col-lg-4"></div>
+<div class="col-lg-4 bring-down">
+  <form class="form-signin" method="POST" action="/signup" onsubmit="return checkMail()">
     <h2 class="form-signin-heading">Sign Up</h2>
     {{ form.hidden_tag() }}
     {{ wtf.form_field(form.email) }}
+    <div id="emailError" style="color: #FF1F1F;"></div>
     {{ wtf.form_field(form.password) }}
+    <div class="passwordError"></div>
+
+    <!-- <div class="form-group  required">
+    	<label class="control-label" for="password">password check</label>
+    	<input class="form-control" id="passwordCheck" name="passwordCheck" required="" type="password" value="">
+    </div> -->
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
   </form>
+</div>
 
 </div> <!-- /container -->
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<script type="text/javascript">
+	function checkMail(){
+		var email=document.getElementById("email").value;
+		var re= "^[A-Za-z0-9._%+-]+@hit.ac.zw$";
+		var found=email.match(re);
+		if (found != null){
+
+			/*if (document.getElementById("password").value!=document.getElementById("passwordCheck").value){
+				document.getElementById("passwordError").textContent="passwords do not match";
+				document.getElementById("password").style.border="1px solid red";
+				return false;
+			}
+
+			else{
+				return true;
+			} */
+		}
+
+		else{
+			document.getElementById("emailError").textContent="invalid email";
+			document.getElementById("email").style.border="1px solid red";
+			return false;
+		}
+	
+	}
+</script>
 {% endblock %}
