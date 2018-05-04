@@ -10,6 +10,7 @@ class User(UserMixin, db.Model):
     publicKey=db.Column(db.String(500))
     #signingKey=db.Column(db.String(100))
     phoneNumber=db.Column(db.Integer)
+    confirmedEmail=db.Column(db.String(6))
     messageSent=db.relationship('Messages', backref='author', lazy='dynamic')
 
     def get_id(self):

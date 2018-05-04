@@ -12,7 +12,7 @@ Digital File Encryption
 			<div>
 				{{ form.hidden_tag() }}
 				<h3><label>Current Phone Number:</label></h3>
-				<p class="text-muted" style="font-size: 18px;">{{ current_user.phoneNumber }}<br>This will phone number will receive notifications when a message has been sent to you.</p>
+				<p class="text-muted" style="font-size: 18px;">{{ current_user.phoneNumber }}<br>This will phone number will receive notifications when a message has been sent to you. format 772886996</p>
 				{{ wtf.form_field(form.phoneNumber) }}<hr>
 
 				<h3>Generate Public and Private Keys</h3>
@@ -35,4 +35,5 @@ Digital File Encryption
 	</div>
 </div>
 {% endblock %}
+
 
