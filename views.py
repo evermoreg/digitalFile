@@ -1,4 +1,4 @@
-from app import app, login_manager, db, s, mail
+from app import app, login_manager, db, s, mail, SignatureExpired
 from flask import redirect, url_for, request, send_file, render_template
 from forms import LoginForm, RegisterForm, messageForm, profileForm
 from flask_login import login_user, login_required, logout_user, current_user
@@ -42,9 +42,9 @@ def signup():
         else:
             #sending confirmation mail to user
 
-            token=s.dumps(form.email.data, salt='email-confirm')
+            token=s.dumps(email, salt='email-confirm')
 
-            msg=Message('Confirm email', sender='tatalmondmush@gmail.com', recipients=[form.email.data])
+            msg=Message('Confirm email', sender='tatalmondmush@gmail.com', recipients=[email])
             link=url_for('confirmMail', token=token, _external=True)
             msg.body='Click the link: {} to confirm your email'.format(link)
             mail.send(msg)
@@ -62,8 +62,8 @@ def signup():
 @app.route('/confirmMail/<token>')
 def confirmMail(token):
     try:
-        email=s.loads(token, salt=email-confirm, max_age=3600)
-        user=User.query.filter_by(email=current_user.email).first()
+        email=s.loads(token, salt='email-confirm', max_age=3600)
+        user=User.query.filter_by(email=email).first()
         user.confirmMail='True'
         db.session.commit()
     except SignatureExpired:
