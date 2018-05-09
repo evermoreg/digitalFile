@@ -23,6 +23,7 @@ class Messages(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     receiver=db.Column(db.String(50))
     file=db.Column(db.LargeBinary)
+    filename=db.Column(db.String(50))
     message=db.Column(db.String(5000))
     rsaEncryptedKey=db.Column(db.String(5000))
     timestamp=db.Column(db.DateTime, index=True, default=datetime.utcnow)

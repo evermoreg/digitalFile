@@ -34,10 +34,12 @@ Message
 		<pre class="jumbotron" id="decryptedMessage"></pre>
 	</div>	
 
-	<!--<div>
+	<div>
 		<a href="/download/{{ message.id }}">Download</a>
-		{{ message.timestamp }}
-	</div>-->
+		{{ message.timestamp }}<br>
+		<input type="file" name="decryptFile" id="decryptFile">
+		<input type="button" name="decryptButton" onclick="decryptFile()">
+	</div>
 </div>
 {% endblock %}
 

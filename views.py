@@ -93,21 +93,21 @@ def home():
 def upload():
     form=messageForm()
     if not form.validate_on_submit():
-     
+        
         receiver=request.form['recipientName']
         #recipient line mistakenly deleted
         aesEncryptedMessage=request.form['encryptedMessage']
         rsaEncryptedKey=request.form['rsaEncryptedKey']
 
-        ''' #message=form.message.data
+        #message=form.message.data
         #files are temporarily disabled
-        file=form.file.data
+        print("working")
+        file=request.files['encryptedFile']
         filename=secure_filename(file.filename)
-        '''
         #add security checks
-
+        print("working ffffine")
         #newMessage = Messages(sender=current_user.email, receiver=receiver, file=file.read(), message=message)
-        newMessage = Messages(sender=current_user.email, receiver=receiver, message=aesEncryptedMessage, rsaEncryptedKey=rsaEncryptedKey)
+        newMessage = Messages(sender=current_user.email, receiver=receiver, message=aesEncryptedMessage, rsaEncryptedKey=rsaEncryptedKey, file=file.read(), filename=filename)
         db.session.add(newMessage)
         db.session.commit()
         
@@ -140,7 +140,7 @@ def readMessage(senderID):
 @login_required
 def download(fileID):
     messages=Messages.query.get(fileID)
-    return send_file(BytesIO(messages.file), attachment_filename='test1.pdf', as_attachment=True)
+    return send_file(BytesIO(messages.file), attachment_filename=messages.filename, as_attachment=True)
 
 @app.route('/compose')    
 @login_required

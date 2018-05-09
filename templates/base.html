@@ -62,20 +62,62 @@ Digital File Encryption
     function encryptAES(){
       var message1=document.getElementById("messageTextBox").value;
       message=window.btoa(message1);
-      alert(message)
       var encryptionKey=document.getElementById("encryptionKeyTextBox").value;
       var enc=CryptoJS.AES.encrypt(message, encryptionKey);
       document.getElementById("encryptedText").value=enc;
-      document.getElementById("aesEncryptedText").innerHTML=enc; 
+      document.getElementById("aesEncryptedText").innerHTML=enc;
+
     }</script>
+
+    <script type="text/javascript">
+      function encryptFile(){
+        var file=document.getElementById("sendingFile").files[0];
+        //document.getElementById("hiddenFileName").innerHTML=file.name;
+        var reader=new FileReader();
+        var encryptionKey=document.getElementById("encryptionKeyTextBox").value;
+        reader.onload=function(e){
+        var encryptedFile=CryptoJS.AES.encrypt(window.btoa(e.target.result), encryptionKey);
+        var downloadLink=document.createElement("a");
+        downloadLink.href=window.URL.createObjectURL(new Blob([encryptedFile], {type:'data:application/octect-stream'}));
+        downloadLink.download=file.name+'.e2eEnc';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      };
+      reader.readAsBinaryString(file);
+      }
+    </script>
+
+    <script type="text/javascript">
+      function decryptFile(){
+        var cipherText=document.getElementById("hideRSAKey").value;
+      var userRSAKey=cryptico.generateRSAKey(localStorage.userPassphrase, 1024);
+      var plainText=cryptico.decrypt(cipherText, userRSAKey);
+        var reader=new FileReader();
+        var file=document.getElementById("decryptFile").files[0];
+
+        reader.onload=function(e){
+          var decrypted=CryptoJS.AES.decrypt(window.atob(e.target.result), plainText.plaintext).toString(CryptoJS.enc.Latin1);
+
+          var downloadLink=document.createElement("a");
+          downloadLink.href=window.URL.createObjectURL(new Blob([decrypted]));
+          downloadLink.download=file.name.replace('.e2eEnc', '');
+
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+        };
+        reader.readAsBinaryString(file);
+      }
+    </script>
     <script>
       function check(cb){
         if(!cb.checked){
           /* choose a file or activate the button to choose a file */
-          document.getElementById("chooseFile").disabled=false;
+          document.getElementById("sendingFile").disabled=false;
         }
         else{
-          document.getElementById("chooseFile").disabled=true;
+          document.getElementById("sendingFile").disabled=true;
         }
       }</script>
       <script>

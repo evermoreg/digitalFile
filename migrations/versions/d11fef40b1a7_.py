@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 60eaa85d1255
+Revision ID: d11fef40b1a7
 Revises: 
-Create Date: 2018-01-22 15:30:01.630819
+Create Date: 2018-05-09 19:25:48.435511
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '60eaa85d1255'
+revision = 'd11fef40b1a7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,13 +21,18 @@ def upgrade():
     op.create_table('user',
     sa.Column('email', sa.String(length=50), nullable=False),
     sa.Column('password', sa.String(length=80), nullable=True),
+    sa.Column('publicKey', sa.String(length=500), nullable=True),
+    sa.Column('phoneNumber', sa.Integer(), nullable=True),
+    sa.Column('confirmedEmail', sa.String(length=6), nullable=True),
     sa.PrimaryKeyConstraint('email')
     )
     op.create_table('messages',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('receiver', sa.String(length=50), nullable=True),
     sa.Column('file', sa.LargeBinary(), nullable=True),
-    sa.Column('message', sa.String(length=500), nullable=True),
+    sa.Column('filename', sa.String(length=50), nullable=True),
+    sa.Column('message', sa.String(length=5000), nullable=True),
+    sa.Column('rsaEncryptedKey', sa.String(length=5000), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('sender', sa.String(length=50), nullable=True),
     sa.ForeignKeyConstraint(['sender'], ['user.email'], ),
