@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+Message sent
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<h3>Your message has been sent</h3>
+		<p>from: {{ current_user }}<br>
+		to:{{ receive }}<br>
+		phone number:{{ receivePhone }}
+		</p>
+	</div>
+</div>
+
+
+
+
+{% endblock %}

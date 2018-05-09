@@ -1,7 +1,6 @@
 from app import app, login_manager, db, s, mail
-from flask import redirect, url_for, request, send_file
+from flask import redirect, url_for, request, send_file, render_template
 from forms import LoginForm, RegisterForm, messageForm, profileForm
-from flask import render_template
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -38,8 +37,8 @@ def signup():
         email=form.email.data
         # TODO: Issue 1 -- validate users email. email has a unique constraint in the database.
         #print(User.query.filter_by(email=email).all())
-        if User.query.filter_by(email=form.password.data).first() != None:
-            return '<h1>Username exists</h1>'
+        if User.query.filter_by(email=form.email.data).first() != None:
+            return '<h1>Invalid login details exists</h1>'
         else:
             #sending confirmation mail to user
 
@@ -111,13 +110,18 @@ def upload():
         newMessage = Messages(sender=current_user.email, receiver=receiver, message=aesEncryptedMessage, rsaEncryptedKey=rsaEncryptedKey)
         db.session.add(newMessage)
         db.session.commit()
-        '''
+        
+        #sending a notification text nested in try; except because of weak internet connections
+        #surround with try; catch
         receiverPhone=User.query.filter_by(email=receiver).first()
         phoneNumber="+263"+str(receiverPhone.phoneNumber)
+        print(phoneNumber)
+        '''
         Twilio.phoneMessage(phoneNumber, current_user.email)
         '''
         
-        return 'Message has been sent from user ' + current_user.email
+        return render_template('messageSent.html', current_user=current_user.email, receivePhone=phoneNumber, receive=receiver)
+        #return 'Message has been sent from user ' + current_user.email
     return "Not sent"
 
 @app.route('/inbox')

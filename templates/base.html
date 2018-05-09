@@ -60,7 +60,9 @@ Digital File Encryption
 
   <script> 
     function encryptAES(){
-      var message=document.getElementById("messageTextBox").value;
+      var message1=document.getElementById("messageTextBox").value;
+      message=window.btoa(message1);
+      alert(message)
       var encryptionKey=document.getElementById("encryptionKeyTextBox").value;
       var enc=CryptoJS.AES.encrypt(message, encryptionKey);
       document.getElementById("encryptedText").value=enc;
@@ -125,13 +127,21 @@ Digital File Encryption
       var cipherText=document.getElementById("hideRSAKey").value;
       var userRSAKey=cryptico.generateRSAKey(localStorage.userPassphrase, 1024);
       var plainText=cryptico.decrypt(cipherText, userRSAKey);
-      alert(plainText.signature);
+      //check if message has been signed
+      if (plainText.signature=='verified'){
+        document.getElementById("Signcheckbox").checked=true;
+      }
+      else{
+        document.getElementById("Signcheckbox").checked.false;
+      }
+
       document.getElementById("decryptedRSAKey").innerHTML=plainText.plaintext;
       var aesEnc=document.getElementById("hideMessage").value;
 
       var bytes=CryptoJS.AES.decrypt(aesEnc, plainText.plaintext);
 
-      var message=bytes.toString(CryptoJS.enc.Utf8);
+      var message1=bytes.toString(CryptoJS.enc.Utf8);
+      message=window.atob(message1)
       document.getElementById("decryptedMessage").innerHTML=message;
     }
   </script>

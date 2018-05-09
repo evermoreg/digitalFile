@@ -27,10 +27,11 @@ Message
 		<input class="btn" style="padding: 14px 24px; border: 1 none; font-weight: 700; letter-spacing: 1px;" value="Click to decrypt" onclick="decryptRSAKey()">
 		<hr>
 		<h4>decrypted aes key</h4>
-		<p class="jumbotron" style="word-break: break-all; white-space: normal;" id="decryptedRSAKey"></p>
-		
+		<pre class="jumbotron" id="decryptedRSAKey"></pre>
+		Message Signed:
+		<input id="Signcheckbox" type="checkbox">
 		<h4>message</h4>
-		<p class="jumbotron" style="word-break: break-all; white-space: normal;" id="decryptedMessage"></p>Signed by: {{ message.sender }}
+		<pre class="jumbotron" id="decryptedMessage"></pre>
 	</div>	
 
 	<!--<div>

@@ -25,6 +25,7 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 '''
 from views import *
+from errors import *
 
 if __name__ == '__main__':
     app.run()
