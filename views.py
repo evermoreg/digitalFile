@@ -37,13 +37,14 @@ def signup():
         email=form.email.data
         # TODO: Issue 1 -- validate users email. email has a unique constraint in the database.
         #print(User.query.filter_by(email=email).all())
+        user=User.query.filter_by(email=form.email.data).first()
+        #print(user)
         if User.query.filter_by(email=form.email.data).first() != None:
             return '<h1>Invalid login details exists</h1>'
         else:
             #sending confirmation mail to user
-
+            
             token=s.dumps(email, salt='email-confirm')
-
             msg=Message('Confirm email', sender='tatalmondmush@gmail.com', recipients=[email])
             link=url_for('confirmMail', token=token, _external=True)
             msg.body='Click the link: {} to confirm your email'.format(link)
@@ -68,7 +69,7 @@ def confirmMail(token):
         db.session.commit()
     except SignatureExpired:
         return 'signature expired'
-    return 'token works'  
+    return render_template('confirmedEmail.html')  
     
 
 @app.route('/dashboard')
@@ -101,11 +102,9 @@ def upload():
 
         #message=form.message.data
         #files are temporarily disabled
-        print("working")
         file=request.files['encryptedFile']
         filename=secure_filename(file.filename)
         #add security checks
-        print("working ffffine")
         #newMessage = Messages(sender=current_user.email, receiver=receiver, file=file.read(), message=message)
         newMessage = Messages(sender=current_user.email, receiver=receiver, message=aesEncryptedMessage, rsaEncryptedKey=rsaEncryptedKey, file=file.read(), filename=filename)
         db.session.add(newMessage)
@@ -115,10 +114,10 @@ def upload():
         #surround with try; catch
         receiverPhone=User.query.filter_by(email=receiver).first()
         phoneNumber="+263"+str(receiverPhone.phoneNumber)
-        print(phoneNumber)
-        '''
+        #print(phoneNumber)
+        
         Twilio.phoneMessage(phoneNumber, current_user.email)
-        '''
+        
         
         return render_template('messageSent.html', current_user=current_user.email, receivePhone=phoneNumber, receive=receiver)
         #return 'Message has been sent from user ' + current_user.email

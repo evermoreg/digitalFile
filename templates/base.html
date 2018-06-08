@@ -76,7 +76,8 @@ Digital File Encryption
         var reader=new FileReader();
         var encryptionKey=document.getElementById("encryptionKeyTextBox").value;
         reader.onload=function(e){
-        var encryptedFile=CryptoJS.AES.encrypt(window.btoa(e.target.result), encryptionKey);
+        //var encryptedFile=CryptoJS.AES.encrypt(window.btoa(e.target.result), encryptionKey);
+        var encryptedFile=window.btoa(e.target.result);
         var downloadLink=document.createElement("a");
         downloadLink.href=window.URL.createObjectURL(new Blob([encryptedFile], {type:'data:application/octect-stream'}));
         downloadLink.download=file.name+'.e2eEnc';
@@ -97,8 +98,8 @@ Digital File Encryption
         var file=document.getElementById("decryptFile").files[0];
 
         reader.onload=function(e){
-          var decrypted=CryptoJS.AES.decrypt(window.atob(e.target.result), plainText.plaintext).toString(CryptoJS.enc.Latin1);
-
+         // var decrypted=CryptoJS.AES.decrypt(window.atob(e.target.result), plainText.plaintext).toString(CryptoJS.enc.Latin1);
+          var decrypted=window.btoa(e.target.result);
           var downloadLink=document.createElement("a");
           downloadLink.href=window.URL.createObjectURL(new Blob([decrypted]));
           downloadLink.download=file.name.replace('.e2eEnc', '');
@@ -118,6 +119,7 @@ Digital File Encryption
         }
         else{
           document.getElementById("sendingFile").disabled=true;
+          document.getElementById("fileEncryptId").disabled=true;
         }
       }</script>
       <script>

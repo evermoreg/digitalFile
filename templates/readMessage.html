@@ -35,10 +35,9 @@ Message
 	</div>	
 
 	<div>
-		<a href="/download/{{ message.id }}">Download</a>
-		{{ message.timestamp }}<br>
+		<a href="/download/{{ message.id }}">Download attachment</a><br>
 		<input type="file" name="decryptFile" id="decryptFile">
-		<input type="button" name="decryptButton" onclick="decryptFile()">
+		<input class="btn-primary" type="button" name="decryptButton" onclick="decryptFile()" value="decrypt File">
 	</div>
 </div>
 {% endblock %}

@@ -26,22 +26,24 @@ Compose
 	<br>
 	<h4>Message:</h4>
 	<textarea class="form-control" name="message" id="messageTextBox" rows="7"></textarea><br>
-	<lablel>No file:</lablel>
-	<!-- try base64 encoding to convert the values of the files --> 
-	<input id="checkbox" type="checkbox" onclick="check(this)">
+	<!-- <lablel>No file:</lablel>
+	try base64 encoding to convert the values of the files
+	<input id="checkbox" type="checkbox" onclick="check(this)" -->
+	 <label>Select a file you want to encrypt:</label>
 	 <input id="sendingFile" type="file" name="sendingFile"><br>
+	 Enter your AES encryption key:
+	<input class="form-control" type="text" name="encryptionKey" id="encryptionKeyTextBox"><br>
 
-	 <input type="button" name="fileEncrypt" onclick="encryptFile()" value="Click to encrypt File" >
-
-	 <!--<input type="text" name="hiddenFileName" id="hiddenFileName">-->
-	Enter your AES encryption key:
-	<input class="form-control" type="text" name="encryptionKey" id="encryptionKeyTextBox"> 
-	<input type="file" name="encryptedFile" id="encryptedFiless">
+	 <!--<input type="button" name="fileEncrypt" onclick="encryptFile()" value="Click to encrypt File" id="fileEncryptId"><br>
+	 <input type="button" name="fileEncrypt" value="Click to encrypt File" id="fileEncryptId"><br>
+	 <input type="text" name="hiddenFileName" id="hiddenFileName">
+	 
+	<label>Select encrypted file to send:</label><input type="file" name="encryptedFile" id="encryptedFiless">-->
 	<input class="btn" style="margin-top: 15px;" type="button" name="aesEncryption" onclick="encryptAES()" value="encrypt"> <br>
 	<h4>AES encrypted Text</h4>
 	<input id="encryptedText" hidden="True" type="text" name="encryptedMessage"><br>
 	<p class="jumbotron" style="word-break: break-all; white-space: normal;" id="aesEncryptedText"></p>
-	<h6 class="text-muted">public key encryption</h6>
+	<h4 class="text-muted">public key encryption</h4>
 	<span>Click to sign your message: </span>
 	<input type="checkbox" name="signCheck" id="signCheck"><br>
 	<input class="btn" type="button" name="RSAEncrypt" value="RSA Encryption" onclick="RSAEncryption()"><br>
