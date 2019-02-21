@@ -1,25 +1,8 @@
-# Comunicazione Sicura/ Secure Communication
+# Hybrid enc
 
-Secure Communication is a Flask framework made application to provide secure communication between two or more parties in an email like fashion. Its purpose is to provide seemless security features (symmetric key and asymetric key encryption) into communication.
-
-## Getting Started
-
-#### Prerequisites
-
-#### Installing
-
-#### Running the tests
-
-#### Deployment
-
-#### Built with
-
-#### Contributing
-
-##### TODO
+hybrid enc is a Flask framework made application to provide secure communication between two or more parties in an email like fashion. Its purpose is to provide seemless security features (symmetric key and asymetric key encryption) into communication.
 
 #### Authors
++ [tatmush](https://github.com/tatmush)
++ [evermoreg](https://github.com/evermoreg/)
 
-#### License
-
-#### Acknowledgements
